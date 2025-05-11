@@ -1,98 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>커피쏘기</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- PWA 및 iOS 설정 -->
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon.png">
-  <meta property="og:image" content="og_icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="커피쏘기">
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="커피쏘기" />
 
-  <meta property="og:locale"      content="ko_KR">
-  <meta property="og:type"        content="website">
-  <meta property="og:title"       content="커피쏘기 – 오늘의 커피 당첨자는?">
-  <meta property="og:description" content="지루한 커피 내기 고민 끝! 룰렛을 돌려 당첨자를 결정해 보세요.">
-  <meta property="og:image"       content="og_icon.png">
-  <!-- 배포 주소로 바꿔 주세요 -->
-  <meta property="og:url"         content="https://landfill.github.io/spin/">
-  <meta property="og:site_name"   content="커피쏘기">
-
-  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Open Graph -->
+  <meta property="og:locale"      content="ko_KR" />
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="커피쏘기 – 오늘의 커피 당첨자는?" />
+  <meta property="og:description" content="지루한 커피 내기 고민 끝! 룰렛을 돌려 당첨자를 결정해 보세요." />
+  <meta property="og:image"       content="og_icon.png" />
+  <meta property="og:url"         content="https://landfill.github.io/spin/" /> <!-- 배포 주소로 바꿔 주세요 -->
+  <meta property="og:site_name"   content="커피쏘기" />
 
   <style>
-    body { font-family: sans-serif; padding: 20px; background: #f0f0f0; display: flex; flex-direction: column; align-items: center; }
-    .section { margin: 20px 0; width: 90%; max-width: 800px; position: relative; text-align: center; }
-    .roulette { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; }
-    canvas { display: block; margin: 30px auto; cursor: pointer; transition: transform 0.3s ease-out; }
-    .winner-popup {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: #fff; padding: 40px; border-radius: 20px; text-align: center; z-index: 100;
-      font-size: 24px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    .hidden { display: none; }
-    .firework { position: absolute; width: 100vw; height: 100vh; top: 0; left: 0; pointer-events: none; z-index: 99; }
-    .group-box {
-      border: 2px solid #ccc; border-radius: 20px; padding: 20px; margin-bottom: 20px; background: #fff;
-    }
-    .input-group {
-      margin-bottom: 10px; display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: nowrap;
-    }
-    .input-group input {
-      font-size: 16px; padding: 12px 16px; border-radius: 9999px; border: 2px solid #000; outline: none;
-      height: 50px; width: 120px;
-    }
-    .input-group button, button {
-      font-size: 16px; padding: 12px 20px; border-radius: 9999px; border: none;
-      background-color: #000; color: #fff; font-weight: bold; cursor: pointer;
-      transition: background-color 0.2s ease; height: 50px;
-    }
-    .input-group button:hover, button:hover { background-color: #333; }
-    .menu-list {
-      display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; justify-content: center;
-    }
-    .menu-item {
-      background: #e0e0e0; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 16px;
-    }
-    .pointer {
-      position: relative; margin: 0 auto 10px auto;
-      width: 0; height: 0; border-left: 15px solid transparent;
-      border-right: 15px solid transparent; border-top: 25px solid #333; z-index: 10;
-    }
+    :root { --btn-h: 44px; }
+    body { font-family: sans-serif; padding: 20px; background:#f0f0f0; display:flex; flex-direction:column; align-items:center; }
+    .section{margin:20px 0;width:90%;max-width:800px;text-align:center;}
+    .roulette{background:#fff;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1);position:relative;}
+    canvas{display:block;margin:30px auto;cursor:pointer;user-select:none;}
+    /* 팝업 & 폭죽 */
+    .winner-popup{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:#fff;padding:60px 80px;border-radius:30px;text-align:center;z-index:120;font-size:32px;font-weight:bold;box-shadow:0 8px 18px rgba(0,0,0,.25);pointer-events:none;}
+    .hidden{display:none;}
+    .firework{position:fixed;width:100vw;height:100vh;top:0;left:0;pointer-events:none;z-index:110;overflow:hidden;}
+    .particle{position:absolute;width:10px;height:10px;border-radius:50%;opacity:0;animation:blast 1500ms ease-out forwards;}
+    @keyframes blast{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--tx),var(--ty)) scale(.2);opacity:0;}}
+    /* 입력 그룹 */
+    .group-box{border:2px solid #ccc;border-radius:20px;padding:20px;margin-bottom:20px;background:#fff;}
+    .input-group{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:10px;flex-wrap:nowrap;}
+    .input-group input{font-size:16px;padding:0 16px;border-radius:9999px;border:2px solid #000;outline:none;height:calc(var(--btn-h) - 4px);width:160px;box-sizing:border-box;line-height:calc(var(--btn-h) - 4px);}
+    .input-group button{font-size:16px;padding:0 24px;border-radius:9999px;border:none;background:#000;color:#fff;font-weight:bold;cursor:pointer;transition:filter .2s;min-width:72px;height:var(--btn-h);display:flex;align-items:center;justify-content:center;}
+    .input-group button:hover{filter:brightness(1.15);}
+    .menu-list{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;justify-content:center;}
+    .menu-item{background:#e0e0e0;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:15px;user-select:none;}
+    /* Pointer */
+    .pointer{position:relative;margin:0 auto -15px;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #333;z-index:10;}
+    /* Spin button */
+    button.action{font-size:16px;padding:0 24px;margin:20px auto 0;border-radius:9999px;border:none;background:#000;color:#fff;font-weight:bold;height:var(--btn-h);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:filter .2s,opacity .2s;}
+    button.action:hover:not(.disabled){filter:brightness(1.15);}button.action.disabled{opacity:.5;cursor:not-allowed;}
   </style>
 </head>
 <body>
   <div class="section roulette">
     <h2>커피쏘기</h2>
+    <!-- 입력 -->
     <div class="group-box">
       <div class="input-group">
-        <input type="text" id="menuInput" placeholder="참가자명 입력">
-        <button onclick="addMenu()">추가</button>
+        <input type="text" id="menuInput" placeholder="참가자명 입력" />
+        <button id="addBtn">추가</button>
       </div>
       <div class="menu-list" id="menuList"></div>
     </div>
+    <!-- 룰렛 -->
     <div class="group-box">
       <div class="pointer"></div>
       <canvas id="rouletteCanvas" width="400" height="400"></canvas>
-      <button onclick="spinRoulette()">돌리기</button>
+      <button id="spinBtn" class="action">돌리기</button>
     </div>
   </div>
-
+  <!-- 팝업 & 폭죽 -->
   <div id="popup" class="winner-popup hidden"></div>
   <div id="firework" class="firework hidden"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="main.js"></script>
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("Service Worker Registered"))
-        .catch(err => console.error("Service Worker registration failed:", err));
+  /* -------------------- IIFE -------------------- */
+  (()=>{
+    let rouletteItems = JSON.parse(localStorage.getItem('rouletteItems') || '[]');
+    const canvas = document.getElementById('rouletteCanvas');
+    const ctx = canvas.getContext('2d');
+    const menuList = document.getElementById('menuList');
+    const spinBtn = document.getElementById('spinBtn');
+    const addBtn  = document.getElementById('addBtn');
+    const fireworkBox = document.getElementById('firework');
+    const popup = document.getElementById('popup');
+
+    let segments = [];
+    let isSpinning = false;
+    let spinningTween = null;
+
+    const setSpinBtnState = a=>{spinBtn.disabled=!a;spinBtn.classList.toggle('disabled',!a);};
+
+    function drawRoulette(){
+      const total=rouletteItems.length||1;
+      const slice=Math.PI*2/total;
+      const offset=-Math.PI/2;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      menuList.innerHTML='';segments=[];
+      rouletteItems.forEach((item,i)=>{
+        const start=i*slice+offset;const mid=start+slice/2;const end=start+slice;const midDeg=(mid*180/Math.PI+360)%360;segments.push({index:i,name:item,midDeg});
+        ctx.beginPath();ctx.moveTo(200,200);ctx.arc(200,200,200,start,end);ctx.fillStyle=`hsl(${i*360/total},80%,70%)`;ctx.fill();ctx.save();ctx.translate(200,200);ctx.rotate(mid);ctx.fillStyle='#000';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='15px sans-serif';ctx.fillText(item,120,0);ctx.restore();
+        const div=document.createElement('div');div.className='menu-item';div.textContent=`[${i+1}] ${item}`;div.onclick=()=>removeItem(i);menuList.appendChild(div);
+      });
     }
-  </script>
-</body>
-</html>
+    function addMenu(){const inp=document.getElementById('menuInput');const v=inp.value.trim();if(!v)return;rouletteItems.push(v);localStorage.setItem('rouletteItems',JSON.stringify(rouletteItems));inp.value='';drawRoulette();}
+    function removeItem(idx){if(isSpinning)return;rouletteItems.splice(idx,1);localStorage.setItem('roulette
