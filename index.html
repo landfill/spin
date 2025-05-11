@@ -5,7 +5,7 @@
   <title>커피쏘기</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- PWA 및 iOS 설정 -->
+  <!-- PWA & iOS -->
   <meta name="theme-color" content="#ffffff" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.png" />
@@ -15,37 +15,37 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="커피쏘기" />
 
-  <!-- Open Graph -->
-  <meta property="og:locale"      content="ko_KR" />
-  <meta property="og:type"        content="website" />
-  <meta property="og:title"       content="커피쏘기 – 오늘의 커피 당첨자는?" />
+  <!-- Open‑Graph -->
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="커피쏘기 – 오늘의 커피 당첨자는?" />
   <meta property="og:description" content="지루한 커피 내기 고민 끝! 룰렛을 돌려 당첨자를 결정해 보세요." />
-  <meta property="og:image"       content="og_icon.png" />
-  <meta property="og:url"         content="https://landfill.github.io/spin/" />
-  <meta property="og:site_name"   content="커피쏘기" />
+  <meta property="og:image" content="og_icon.png" />
+  <meta property="og:url" content="https://landfill.github.io/spin/" />
+  <meta property="og:site_name" content="커피쏘기" />
 
   <style>
     :root { --btn-h: 44px; }
-    body{font-family:sans-serif;padding:20px;background:#f0f0f0;display:flex;flex-direction:column;align-items:center;}
-    .section{margin:20px 0;width:90%;max-width:800px;text-align:center;}
-    .roulette{background:#fff;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1);position:relative;}
-    canvas{display:block;margin:30px auto;cursor:pointer;user-select:none;}
-    .winner-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:60px 80px;border-radius:30px;z-index:120;font-size:32px;font-weight:bold;box-shadow:0 8px 18px rgba(0,0,0,.25);pointer-events:none;}
-    .hidden{display:none;}
-    .firework{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:110;overflow:hidden;}
-    .particle{position:absolute;width:10px;height:10px;border-radius:50%;opacity:0;animation:blast 1500ms ease-out forwards;}
-    @keyframes blast{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--tx),var(--ty)) scale(.2);opacity:0;}}
-    .group-box{border:2px solid #ccc;border-radius:20px;padding:20px;margin-bottom:20px;background:#fff;}
-    .input-group{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:10px;}
-    .input-group input{font-size:16px;padding:0 16px;border-radius:9999px;border:2px solid #000;height:calc(var(--btn-h) - 4px);width:160px;box-sizing:border-box;}
-    .input-group button{font-size:16px;padding:0 24px;border-radius:9999px;border:none;background:#000;color:#fff;font-weight:bold;cursor:pointer;min-width:72px;height:var(--btn-h);transition:filter .2s;}
-    .input-group button:hover{filter:brightness(1.15);}
-    .menu-list{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;justify-content:center;}
-    .menu-item{background:#e0e0e0;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:15px;user-select:none;}
-    .pointer{position:relative;margin:0 auto -15px;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #333;z-index:10;}
-    button.action{font-size:16px;padding:0 24px;margin:20px auto 0;border-radius:9999px;border:none;background:#000;color:#fff;font-weight:bold;height:var(--btn-h);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:filter .2s,opacity .2s;}
-    button.action.disabled{opacity:.5;cursor:not-allowed;}
-    button.action:hover:not(.disabled){filter:brightness(1.15);}
+    body{font-family:sans-serif;padding:20px;background:#f0f0f0;display:flex;flex-direction:column;align-items:center}
+    .section{margin:20px 0;width:90%;max-width:800px;text-align:center}
+    .roulette{background:#fff;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,.1);position:relative}
+    canvas{display:block;margin:30px auto;cursor:pointer;user-select:none}
+    .winner-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:60px 80px;border-radius:30px;z-index:120;font-size:32px;font-weight:bold;box-shadow:0 8px 18px rgba(0,0,0,.25);pointer-events:none}
+    .hidden{display:none}
+    .firework{position:fixed;inset:0;width:100vw;height:100vh;z-index:110;pointer-events:none;overflow:hidden}
+    .particle{position:absolute;width:10px;height:10px;border-radius:50%;opacity:0;animation:blast 1500ms ease-out forwards}
+    @keyframes blast{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(.2);opacity:0}}
+    .group-box{border:2px solid #ccc;border-radius:20px;padding:20px;margin-bottom:20px;background:#fff}
+    .input-group{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:10px}
+    .input-group input{font-size:16px;padding:0 16px;border-radius:9999px;border:2px solid #000;height:calc(var(--btn-h) - 4px);width:160px;box-sizing:border-box}
+    .input-group button{font-size:16px;padding:0 24px;border-radius:9999px;border:none;background:#000;color:#fff;font-weight:bold;cursor:pointer;min-width:72px;height:var(--btn-h);transition:filter .2s}
+    .input-group button:hover{filter:brightness(1.15)}
+    .menu-list{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0;justify-content:center}
+    .menu-item{background:#e0e0e0;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:15px;user-select:none}
+    .pointer{position:relative;margin:0 auto -15px;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:25px solid #333;z-index:10}
+    button.action{font-size:16px;padding:0 24px;margin:20px auto 0;border-radius:9999px;border:none;background:#000;color:#fff;font-weight:bold;height:var(--btn-h);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:filter .2s,opacity .2s}
+    button.action.disabled{opacity:.5;cursor:not-allowed}
+    button.action:hover:not(.disabled){filter:brightness(1.15)}
   </style>
 </head>
 <body>
@@ -69,35 +69,58 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script>
-  // DOMContentLoaded 로 전체 코드 지연 실행
   window.addEventListener('DOMContentLoaded', () => {
-    let rouletteItems = JSON.parse(localStorage.getItem('rouletteItems') || '[]');
-    const canvas = document.getElementById('rouletteCanvas');
-    const ctx = canvas.getContext('2d');
-    const menuList = document.getElementById('menuList');
-    const spinBtn = document.getElementById('spinBtn');
-    const addBtn  = document.getElementById('addBtn');
-    const popup = document.getElementById('popup');
-    const fireworkBox = document.getElementById('firework');
+    /* ---------- Elements & State ---------- */
+    const canvas=document.getElementById('rouletteCanvas');
+    const ctx=canvas.getContext('2d');
+    const menuList=document.getElementById('menuList');
+    const addBtn=document.getElementById('addBtn');
+    const spinBtn=document.getElementById('spinBtn');
+    const popup=document.getElementById('popup');
+    const firework=document.getElementById('firework');
+    const input=document.getElementById('menuInput');
 
-    let segments=[];
-    let isSpinning=false;
-    let tween=null;
+    let items=JSON.parse(localStorage.getItem('rouletteItems')||'[]');
+    let segments=[];let isSpinning=false;let tween=null;
 
-    const save=()=>localStorage.setItem('rouletteItems',JSON.stringify(rouletteItems));
-    const setBtn=a=>{spinBtn.disabled=!a;spinBtn.classList.toggle('disabled',!a);};
+    const save=()=>localStorage.setItem('rouletteItems',JSON.stringify(items));
+    const setSpin=a=>{spinBtn.disabled=!a;spinBtn.classList.toggle('disabled',!a);}  
 
-    const draw=()=>{
-      const total=rouletteItems.length||1;
-      const slice=Math.PI*2/total;
-      const offset=-Math.PI/2;
-      ctx.clearRect(0,0,400,400);
-      menuList.innerHTML='';segments=[];
-      rouletteItems.forEach((name,i)=>{
-        const start=i*slice+offset;const end=start+slice;const mid=(start+end)/2;const midDeg=(mid*180/Math.PI+360)%360;segments.push({index:i,name,midDeg});
-        ctx.beginPath();ctx.moveTo(200,200);ctx.arc(200,200,200,start,end);ctx.fillStyle=`hsl(${i*360/total},80%,70%)`;ctx.fill();ctx.save();ctx.translate(200,200);ctx.rotate(mid);ctx.fillStyle='#000';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='15px sans-serif';ctx.fillText(name,120,0);ctx.restore();
-        const d=document.createElement('div');d.className='menu-item';d.textContent=`[${i+1}] ${name}`;d.onclick=()=>remove(i);menuList.appendChild(d);
+    /* ---------- Draw ---------- */
+    function drawWheel(){
+      const total=items.length||1, slice=Math.PI*2/total, offset=-Math.PI/2;
+      ctx.clearRect(0,0,400,400); menuList.innerHTML=''; segments=[];
+      items.forEach((n,i)=>{
+        const start=i*slice+offset,end=start+slice,mid=(start+end)/2,deg=(mid*180/Math.PI+360)%360;
+        segments.push({i,name:n,deg});
+        ctx.beginPath();ctx.moveTo(200,200);ctx.arc(200,200,200,start,end);ctx.fillStyle=`hsl(${i*360/total},80%,70%)`;ctx.fill();
+        ctx.save();ctx.translate(200,200);ctx.rotate(mid);ctx.fillStyle="#000";ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='15px sans-serif';ctx.fillText(n,120,0);ctx.restore();
+        const m=document.createElement('div');m.className='menu-item';m.textContent=`[${i+1}] ${n}`;m.onclick=()=>removeItem(i);menuList.appendChild(m);
       });
-    };
+    }
 
-    const firework=()=>{fireworkBox.innerHTML='';for(let i=0;i<150;i++){const p=document.createElement('div');p.className='particle';p.style.background=`hsl(${Math.random()*360},80%,60%)`;p.style.setProperty('--tx',`${(Math.random()-0.5)*900}px`);p.style.setProperty('--ty',`${(Math.random()-0.5)*900}px`);p.style.left='50%';p.style.top='50%';fireworkBox.appendChild(p);}fireworkBox.classList.remove('hidden');setTimeout(()=>firework
+    /* ---------- Firework ---------- */
+    function boom(){firework.innerHTML='';for(let i=0;i<120;i++){const p=document.createElement('div');p.className='particle';p.style.background=`hsl(${Math.random()*360},80%,60%)`;p.style.setProperty('--tx',`${(Math.random()-0.5)*900}px`);p.style.setProperty('--ty',`${(Math.random()-0.5)*900}px`);p.style.left='50%';p.style.top='50%';firework.appendChild(p);}firework.classList.remove('hidden');setTimeout(()=>firework.classList.add('hidden'),1500);}
+
+    /* ---------- Actions ---------- */
+    function addItem(){const v=input.value.trim();if(!v)return;items.push(v);save();input.value='';drawWheel();}
+    function removeItem(idx){if(isSpinning)return;items.splice(idx,1);save();drawWheel();}
+    function spin(){if(isSpinning||!items.length)return;isSpinning=true;setSpin(false);if(tween){tween.kill();}
+      gsap.set(canvas,{rotation:0});const idx=Math.floor(Math.random()*items.length);const target=(270-segments[idx].deg+360)%360;
+      tween=gsap.to(canvas,{rotation:360*5+target,duration:4,ease:'power4.out',onComplete:()=>{popup.innerHTML=`[${idx+1}] <b>${segments[idx].name}</b>님,<br>당첨입니다!`;popup.classList.remove('hidden');boom();setTimeout(()=>popup.classList.add('hidden'),1500);isSpinning=false;setSpin(true);} });
+    }
+
+    /* ---------- Event binds ---------- */
+    addBtn.addEventListener('click',addItem);
+    spinBtn.addEventListener('click',spin);
+    canvas.addEventListener('click',e=>{if(isSpinning)return;const r=canvas.getBoundingClientRect();const x=e.clientX-r.left-200,y=e.clientY-r.top-200;if(Math.hypot(x,y)>200)return;const deg=((Math.atan2(y,x)*180/Math.PI)+450)%360;removeItem(Math.floor(deg/(360/items.length)));});
+
+    /* ---------- Start ---------- */
+    drawWheel();setSpin(true);
+
+    /* ---------- Service worker ---------- */
+    if('serviceWorker'in navigator){navigator.serviceWorker.register('sw.js').catch(console.error);}
+  });
+  </script>
+</body>
+</html>
