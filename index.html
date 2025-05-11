@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="커피쏘기" />
@@ -68,14 +69,14 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script>
-  (()=>{
-    /* ---------- State ---------- */
+  // DOMContentLoaded 로 전체 코드 지연 실행
+  window.addEventListener('DOMContentLoaded', () => {
     let rouletteItems = JSON.parse(localStorage.getItem('rouletteItems') || '[]');
     const canvas = document.getElementById('rouletteCanvas');
     const ctx = canvas.getContext('2d');
     const menuList = document.getElementById('menuList');
     const spinBtn = document.getElementById('spinBtn');
-    const addBtn = document.getElementById('addBtn');
+    const addBtn  = document.getElementById('addBtn');
     const popup = document.getElementById('popup');
     const fireworkBox = document.getElementById('firework');
 
@@ -83,68 +84,20 @@
     let isSpinning=false;
     let tween=null;
 
-    /* ---------- Helpers ---------- */
     const save=()=>localStorage.setItem('rouletteItems',JSON.stringify(rouletteItems));
-    const setBtn=active=>{spinBtn.disabled=!active;spinBtn.classList.toggle('disabled',!active);};
+    const setBtn=a=>{spinBtn.disabled=!a;spinBtn.classList.toggle('disabled',!a);};
 
-    /* ---------- Draw Wheel ---------- */
-    function draw(){
+    const draw=()=>{
       const total=rouletteItems.length||1;
       const slice=Math.PI*2/total;
       const offset=-Math.PI/2;
       ctx.clearRect(0,0,400,400);
-      menuList.innerHTML='';
-      segments=[];
+      menuList.innerHTML='';segments=[];
       rouletteItems.forEach((name,i)=>{
-        const start=i*slice+offset;
-        const end=start+slice;
-        const mid=(start+end)/2;
-        const midDeg=(mid*180/Math.PI+360)%360;
-        segments.push({index:i,name,midDeg});
-        ctx.beginPath();ctx.moveTo(200,200);ctx.arc(200,200,200,start,end);ctx.fillStyle=`hsl(${i*360/total},80%,70%)`;ctx.fill();
-        ctx.save();ctx.translate(200,200);ctx.rotate(mid);ctx.fillStyle='#000';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='15px sans-serif';ctx.fillText(name,120,0);ctx.restore();
-        const div=document.createElement('div');div.className='menu-item';div.textContent=`[${i+1}] ${name}`;div.onclick=()=>remove(i);menuList.appendChild(div);
+        const start=i*slice+offset;const end=start+slice;const mid=(start+end)/2;const midDeg=(mid*180/Math.PI+360)%360;segments.push({index:i,name,midDeg});
+        ctx.beginPath();ctx.moveTo(200,200);ctx.arc(200,200,200,start,end);ctx.fillStyle=`hsl(${i*360/total},80%,70%)`;ctx.fill();ctx.save();ctx.translate(200,200);ctx.rotate(mid);ctx.fillStyle='#000';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='15px sans-serif';ctx.fillText(name,120,0);ctx.restore();
+        const d=document.createElement('div');d.className='menu-item';d.textContent=`[${i+1}] ${name}`;d.onclick=()=>remove(i);menuList.appendChild(d);
       });
-    }
+    };
 
-    /* ---------- Firework ---------- */
-    function firework(){
-      fireworkBox.innerHTML='';
-      for(let i=0;i<150;i++){
-        const p=document.createElement('div');p.className='particle';p.style.background=`hsl(${Math.random()*360},80%,60%)`;p.style.setProperty('--tx',`${(Math.random()-0.5)*900}px`);p.style.setProperty('--ty',`${(Math.random()-0.5)*900}px`);p.style.left='50%';p.style.top='50%';fireworkBox.appendChild(p);
-      }
-      fireworkBox.classList.remove('hidden');
-      setTimeout(()=>fireworkBox.classList.add('hidden'),1500);
-    }
-
-    /* ---------- Actions ---------- */
-    function add(){
-      const v=document.getElementById('menuInput').value.trim();
-      if(!v) return;
-      rouletteItems.push(v);save();draw();document.getElementById('menuInput').value='';
-    }
-    function remove(idx){if(isSpinning)return;rouletteItems.splice(idx,1);save();draw();}
-    function spin(){
-      if(isSpinning||!rouletteItems.length)return;
-      isSpinning=true;setBtn(false);
-      if(tween){tween.kill();tween=null;}gsap.set(canvas,{rotation:0});
-      const idx=Math.floor(Math.random()*rouletteItems.length);
-      const target=(270-segments[idx].midDeg+360)%360;
-      tween=gsap.to(canvas,{rotation:360*5+target,duration:4,ease:'power4.out',onComplete:()=>{tween=null;popup.innerHTML=`[${idx+1}] <b>${segments[idx].name}</b>님,<br>당첨입니다!`;
-      popup.classList.remove('hidden');firework();setTimeout(()=>popup.classList.add('hidden'),1500);isSpinning=false;setBtn(true);}});
-    }
-
-    /* ---------- Event ---------- */
-    addBtn.addEventListener('click',add);
-    spinBtn.addEventListener('click',spin);
-    canvas.addEventListener('click',e=>{if(isSpinning)return;const r=canvas.getBoundingClientRect();const x=e.clientX-r.left-200;const y=e.clientY-r.top-200;if(Math.hypot(x,y)>200)return;const deg=((Math.atan2(y,x)*180/Math.PI)+450)%360;remove(Math.floor(deg/(360/rouletteItems.length)));});
-
-    /* ---------- SW ---------- */
-    if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(console.error);});}
-
-    /* ---------- Init ---------- */
-    draw();setBtn(true);
-  })();
-  </script>
-</body>
-</html>
+    const firework=()=>{fireworkBox.innerHTML='';for(let i=0;i<150;i++){const p=document.createElement('div');p.className='particle';p.style.background=`hsl(${Math.random()*360},80%,60%)`;p.style.setProperty('--tx',`${(Math.random()-0.5)*900}px`);p.style.setProperty('--ty',`${(Math.random()-0.5)*900}px`);p.style.left='50%';p.style.top='50%';fireworkBox.appendChild(p);}fireworkBox.classList.remove('hidden');setTimeout(()=>firework
