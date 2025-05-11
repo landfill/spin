@@ -95,7 +95,7 @@
         segments.push({i,name:n,deg});
         ctx.beginPath();ctx.moveTo(200,200);ctx.arc(200,200,200,start,end);ctx.fillStyle=`hsl(${i*360/total},80%,70%)`;ctx.fill();
         ctx.save();ctx.translate(200,200);ctx.rotate(mid);ctx.fillStyle="#000";ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='15px sans-serif';ctx.fillText(n,120,0);ctx.restore();
-        const m=document.createElement('div');m.className='menu-item';m.textContent=`[${i+1}] ${n}`;m.onclick=()=>removeItem(i);menuList.appendChild(m);
+        const m=document.createElement('div');m.className='menu-item';m.textContent=`${n}`;m.onclick=()=>removeItem(i);menuList.appendChild(m);
       });
     }
 
