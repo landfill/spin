@@ -1,0 +1,280 @@
+import React, { useState } from 'react';
+import { Check, Car, Mountain, Clock, AlertTriangle, Backpack, MapPin } from 'lucide-react';
+
+const HikingPlan = () => {
+  const [checkedItems, setCheckedItems] = useState({});
+  
+  const toggleCheck = (id) => {
+    setCheckedItems(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  const ChecklistItem = ({ id, children }) => (
+    <div 
+      className="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-gray-50"
+      onClick={() => toggleCheck(id)}
+    >
+      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+        checkedItems[id] ? 'bg-green-500 border-green-500' : 'border-gray-300'
+      }`}>
+        {checkedItems[id] && <Check className="w-3 h-3 text-white" />}
+      </div>
+      <span className={checkedItems[id] ? 'line-through text-gray-500' : 'text-gray-800'}>
+        {children}
+      </span>
+    </div>
+  );
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 bg-white">
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">🏔️ 설악산 공룡능선 1박2일</h1>
+        <p className="text-lg text-gray-600">2025년 5월 25일(일) ~ 26일(월)</p>
+      </div>
+
+      {/* 코스 개요 */}
+      <div className="bg-blue-50 rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-semibold mb-4 flex items-center">
+          <Mountain className="mr-2 text-blue-600" />
+          추천 최적 코스
+        </h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="bg-white rounded p-4">
+            <h3 className="font-semibold text-blue-800 mb-2">🌅 Day 1 (5/25 일)</h3>
+            <p className="text-sm text-gray-600 mb-2">소공원 → 비선대 → 공룡능선 → 화운각대피소</p>
+            <p className="text-xs text-gray-500">소요시간: 약 6-7시간 / 난이도: 상</p>
+          </div>
+          <div className="bg-white rounded p-4">
+            <h3 className="font-semibold text-green-800 mb-2">🌄 Day 2 (5/26 월)</h3>
+            <p className="text-sm text-gray-600 mb-2">화운각대피소 → 대청봉 → 중청대피소 → 소공원</p>
+            <p className="text-xs text-gray-500">소요시간: 약 5-6시간 / 난이도: 중상</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 상세 일정 */}
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="bg-orange-50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center">
+            <Clock className="mr-2 text-orange-600" />
+            Day 1 상세 일정
+          </h3>
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between">
+              <span>06:00</span>
+              <span>출발 (서울 기준)</span>
+            </div>
+            <div className="flex justify-between">
+              <span>09:00</span>
+              <span>소공원 도착, 주차</span>
+            </div>
+            <div className="flex justify-between">
+              <span>09:30</span>
+              <span>등산 시작</span>
+            </div>
+            <div className="flex justify-between">
+              <span>11:00</span>
+              <span>비선대 도착</span>
+            </div>
+            <div className="flex justify-between">
+              <span>12:00</span>
+              <span>점심식사</span>
+            </div>
+            <div className="flex justify-between">
+              <span>16:00</span>
+              <span>화운각대피소 도착</span>
+            </div>
+            <div className="flex justify-between">
+              <span>18:00</span>
+              <span>저녁식사, 휴식</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-green-50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4 flex items-center">
+            <Clock className="mr-2 text-green-600" />
+            Day 2 상세 일정
+          </h3>
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between">
+              <span>05:30</span>
+              <span>기상, 간단한 아침</span>
+            </div>
+            <div className="flex justify-between">
+              <span>06:30</span>
+              <span>대청봉 향해 출발</span>
+            </div>
+            <div className="flex justify-between">
+              <span>07:30</span>
+              <span>대청봉 일출 감상</span>
+            </div>
+            <div className="flex justify-between">
+              <span>09:00</span>
+              <span>중청대피소 경유</span>
+            </div>
+            <div className="flex justify-between">
+              <span>12:00</span>
+              <span>점심식사</span>
+            </div>
+            <div className="flex justify-between">
+              <span>15:00</span>
+              <span>소공원 도착</span>
+            </div>
+            <div className="flex justify-between">
+              <span>17:00</span>
+              <span>서울 향해 출발</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 교통 및 주차 정보 */}
+      <div className="bg-gray-50 rounded-lg p-6 mb-6">
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <Car className="mr-2 text-gray-600" />
+          교통 및 주차 정보
+        </h3>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <h4 className="font-medium mb-2">🚗 주차장 정보</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• 소공원 주차장 (24시간 개방)</li>
+              <li>• 주차비: 승용차 4,000원/일</li>
+              <li>• 총 주차비: 8,000원 (2일)</li>
+              <li>• 미리 도착 권장 (09:00 이전)</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2">🗺️ 내비게이션</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• "설악산 소공원 주차장"</li>
+              <li>• 강원 속초시 설악산로 1091</li>
+              <li>• 서울에서 약 3시간 소요</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 준비물 체크리스트 */}
+      <div className="bg-yellow-50 rounded-lg p-6 mb-6">
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <Backpack className="mr-2 text-yellow-600" />
+          준비물 체크리스트
+        </h3>
+        
+        <div className="grid md:grid-cols-3 gap-6">
+          <div>
+            <h4 className="font-medium mb-3 text-gray-700">🎒 배낭 & 의류</h4>
+            <div className="space-y-1">
+              <ChecklistItem id="backpack">40-50L 등산배낭</ChecklistItem>
+              <ChecklistItem id="hiking_boots">등산화 (발목보호)</ChecklistItem>
+              <ChecklistItem id="rain_gear">우비 or 레인자켓</ChecklistItem>
+              <ChecklistItem id="fleece">플리스 or 패딩</ChecklistItem>
+              <ChecklistItem id="extra_clothes">여벌옷 (속옷, 양말)</ChecklistItem>
+              <ChecklistItem id="hat">모자</ChecklistItem>
+              <ChecklistItem id="gloves">장갑</ChecklistItem>
+            </div>
+          </div>
+          
+          <div>
+            <h4 className="font-medium mb-3 text-gray-700">🍽️ 식량 & 물</h4>
+            <div className="space-y-1">
+              <ChecklistItem id="water">물 3-4L</ChecklistItem>
+              <ChecklistItem id="lunch1">Day1 점심 (김밥, 샌드위치)</ChecklistItem>
+              <ChecklistItem id="dinner">Day1 저녁 (라면, 간편식)</ChecklistItem>
+              <ChecklistItem id="breakfast">Day2 아침 (시리얼, 빵)</ChecklistItem>
+              <ChecklistItem id="lunch2">Day2 점심</ChecklistItem>
+              <ChecklistItem id="snacks">행동식 (견과류, 초콜릿)</ChecklistItem>
+              <ChecklistItem id="burner">휴대용 버너 & 가스</ChecklistItem>
+              <ChecklistItem id="cookware">취사도구 (컵, 그릇)</ChecklistItem>
+            </div>
+          </div>
+          
+          <div>
+            <h4 className="font-medium mb-3 text-gray-700">🔧 장비 & 기타</h4>
+            <div className="space-y-1">
+              <ChecklistItem id="sleeping_bag">침낭 (봄용)</ChecklistItem>
+              <ChecklistItem id="mat">매트리스</ChecklistItem>
+              <ChecklistItem id="headlamp">헤드랜턴 + 여분전지</ChecklistItem>
+              <ChecklistItem id="first_aid">응급처치용품</ChecklistItem>
+              <ChecklistItem id="hiking_poles">등산스틱</ChecklistItem>
+              <ChecklistItem id="map">지도 & 나침반</ChecklistItem>
+              <ChecklistItem id="phone">휴대폰 충전기</ChecklistItem>
+              <ChecklistItem id="trash_bag">쓰레기봉투</ChecklistItem>
+              <ChecklistItem id="sunscreen">자외선차단제</ChecklistItem>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 중요 참고사항 */}
+      <div className="bg-red-50 rounded-lg p-6 mb-6">
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <AlertTriangle className="mr-2 text-red-600" />
+          안전 & 주의사항
+        </h3>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <h4 className="font-medium mb-2 text-red-700">⚠️ 안전수칙</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• 혼자 가는 산행이므로 가족/지인에게 일정 공유</li>
+              <li>• 휴대폰 완충 + 보조배터리 필수</li>
+              <li>• 날씨 확인 후 출발 (우천시 연기 고려)</li>
+              <li>• 체력 안배하여 무리하지 말 것</li>
+              <li>• 일몰 전까지 대피소 도착 필수</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2 text-red-700">📞 비상연락처</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• 설악산 관리사무소: 033-801-0900</li>
+              <li>• 소방서 (응급상황): 119</li>
+              <li>• 화운각대피소: 033-636-7700</li>
+              <li>• 산악구조대: 033-639-6682</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 예산 및 예약 정보 */}
+      <div className="bg-purple-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold mb-4 flex items-center">
+          <MapPin className="mr-2 text-purple-600" />
+          예산 & 예약 정보
+        </h3>
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <h4 className="font-medium mb-2">💰 예상 비용</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• 입장료: 3,500원</li>
+              <li>• 주차비: 8,000원 (2일)</li>
+              <li>• 대피소: 15,000원/박</li>
+              <li>• 연료비: 약 60,000원</li>
+              <li>• 식비: 약 30,000원</li>
+              <li className="font-medium text-purple-700">총 예상비용: 약 116,500원</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2">📅 중요 예약</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• 화운각대피소 예약 필수!</li>
+              <li>• 예약: 국립공원 통합예약시스템</li>
+              <li>• reservation.knps.or.kr</li>
+              <li>• 전화: 1588-3230</li>
+              <li className="text-red-600 font-medium">⚠️ 성수기라 예약 확인 필수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 text-center text-gray-500 text-sm">
+        <p>체크리스트 항목을 클릭하면 완료 표시됩니다. 안전한 산행 되세요! 🏔️</p>
+      </div>
+    </div>
+  );
+};
+
+export default HikingPlan;
