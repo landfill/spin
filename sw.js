@@ -5,8 +5,10 @@ const FILES_TO_CACHE = [
   "./icon.png",
   "./og_icon.png",
   "./manifest.json",
-  "./main.js"
 ];
+
+// Removed "./main.js" from the cache list as the file does not exist.
+// Attempting to cache a missing file caused the service worker installation to fail.
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

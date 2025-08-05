@@ -132,6 +132,13 @@
     /* ---------- Init ---------- */
     resizeCanvas(); setBtn(true);
   });
+
+  // Register the service worker for offline support when available
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js');
+    });
+  }
   </script>
 </body>
 </html>
