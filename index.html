@@ -109,6 +109,7 @@
 
         const div=document.createElement('div');div.className='menu-item';div.textContent=name;div.onclick=()=>removeItem(i);menuList.appendChild(div);
       });
+      setBtn(items.length>0);
     }
 
     /* ---------- Firework ---------- */
@@ -126,11 +127,12 @@
 
     /* ---------- Events ---------- */
     addBtn.addEventListener('click',addItem);
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')addItem();});
     spinBtn.addEventListener('click',spin);
     canvas.addEventListener('click',e=>{if(isSpinning||!items.length)return;const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left-canvas.width/2,y=e.clientY-rect.top-canvas.height/2;if(Math.hypot(x,y)>canvas.width/2)return;const deg=((Math.atan2(y,x)*180/Math.PI)+450)%360;removeItem(Math.floor(deg/(360/items.length)));});
 
     /* ---------- Init ---------- */
-    resizeCanvas(); setBtn(true);
+    resizeCanvas(); setBtn(items.length>0); input.focus();
   });
   </script>
 </body>
